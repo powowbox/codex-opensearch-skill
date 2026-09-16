@@ -45,7 +45,23 @@ Create a generic-password entry in macOS Keychain with:
 - account: your read-only OpenSearch username
 - password: your OpenSearch password
 
-Keychain Access can create the entry without exposing the password in shell history.
+In **Keychain Access**, select the `login` keychain, choose **File > New
+Password Item**, enter `codex-opensearch` as the Keychain Item Name, and use the
+same username configured in `OPENSEARCH_KEYCHAIN_ACCOUNT` as the Account Name.
+Enter the OpenSearch password and save the item.
+
+Alternatively, create it from Terminal. Keep `-w` as the final option so macOS
+prompts for the password instead of storing it in shell history:
+
+```bash
+security add-generic-password \
+  -a "readonly-user" \
+  -s "codex-opensearch" \
+  -w
+```
+
+Replace `readonly-user` with the read-only OpenSearch username used in the
+Codex configuration. Do not put the password directly in the command.
 
 Copy the example from [docs/codex-configuration.md](docs/codex-configuration.md)
 into the Codex configuration and replace only the placeholders. Restart Codex
