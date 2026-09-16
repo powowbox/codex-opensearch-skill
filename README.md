@@ -89,20 +89,29 @@ Restart Codex after installing or updating the skill.
 
 The skill contains the reusable read-only investigation workflow, aggregation
 and sampling limits, field selection rules, and the prohibition on scrolling or
-full-result enumeration. Keep deployment-specific information in each
-repository's `AGENTS.md`, for example:
+full-result enumeration.
+
+You can add project-specific search information to the repository's
+`AGENTS.md`. Useful details include index patterns for each environment, fields
+and values that identify an application, timestamp fields, correlation IDs, and
+known log-message markers. Keep credentials and secrets out of this file. For
+example:
 
 ```md
 ## OpenSearch log analysis
 
 Use `$opensearch-log-analysis` for every OpenSearch investigation.
 
-### Index and application routing
+### Project log routing
 
-- Define the index pattern for each environment.
-- Define the field used to select each application.
-- Define request, session, installation, or device correlation fields.
-- Never broaden an unavailable index implicitly.
+- Production index pattern: `example-app-production-*`.
+- Staging index pattern: `example-app-staging-*`.
+- Filter applications with `service.name`.
+- Known services are `orders-api` and `billing-worker`.
+- Use `@timestamp` as the event time.
+- Correlate requests with `trace.id` and `request.id`.
+- If an index is unavailable, report the error instead of searching a broader
+  index pattern.
 ```
 
 This keeps private routing knowledge close to the project while allowing the
