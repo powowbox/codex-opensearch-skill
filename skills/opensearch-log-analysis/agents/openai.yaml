@@ -1,0 +1,3 @@
+interface:
+  display_name: "OpenSearch Log Analysis"
+  short_description: "Analyze OpenSearch logs with bounded results"

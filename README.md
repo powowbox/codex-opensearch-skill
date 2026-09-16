@@ -7,13 +7,17 @@ This project does not implement or fork the OpenSearch MCP server. It keeps the
 OpenSearch password in macOS Keychain, starts a pinned upstream server through
 `uvx`, and documents a narrow read-only Codex configuration.
 
+The repository also includes an optional `opensearch-log-analysis` Codex skill
+that keeps investigations read-only and limits how much log data enters the
+model context.
+
 ## Security model
 
 - The password is read from macOS Keychain and passed only in the child process environment.
 - The launcher never prints the password or places it in command-line arguments.
 - The example configuration disables generic and write-capable tools.
 - A genuinely read-only OpenSearch account remains the primary security boundary.
-- Search-result limits must also be enforced through agent instructions and narrow queries.
+- The bundled skill defines strict search-result limits and a bounded investigation workflow.
 
 ## Requirements
 
@@ -66,6 +70,43 @@ Codex configuration. Do not put the password directly in the command.
 Copy the example from [docs/codex-configuration.md](docs/codex-configuration.md)
 into the Codex configuration and replace only the placeholders. Restart Codex
 after changing its MCP configuration.
+
+## Install the Codex skill
+
+The skill is stored in
+[`skills/opensearch-log-analysis`](skills/opensearch-log-analysis). It is a
+repository asset and is not installed by the Python package.
+
+Copy it into the Codex skills directory:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R skills/opensearch-log-analysis \
+  "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+Restart Codex after installing or updating the skill.
+
+The skill contains the reusable read-only investigation workflow, aggregation
+and sampling limits, field selection rules, and the prohibition on scrolling or
+full-result enumeration. Keep deployment-specific information in each
+repository's `AGENTS.md`, for example:
+
+```md
+## OpenSearch log analysis
+
+Use `$opensearch-log-analysis` for every OpenSearch investigation.
+
+### Index and application routing
+
+- Define the index pattern for each environment.
+- Define the field used to select each application.
+- Define request, session, installation, or device correlation fields.
+- Never broaden an unavailable index implicitly.
+```
+
+This keeps private routing knowledge close to the project while allowing the
+same safety workflow to be reused elsewhere.
 
 ## Verification
 
