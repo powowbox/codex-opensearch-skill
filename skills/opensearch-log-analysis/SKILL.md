@@ -27,6 +27,21 @@ application filters, log formats, and correlation fields as authoritative.
 6. Correlate representative logs with the corresponding source path. Base the
    conclusion on both log evidence and current code when source is available.
 
+## Reusable project knowledge
+
+- Read `OPEN_SEARCH_INFO.md` at the repository root before an investigation if
+  it exists.
+- When an investigation reveals a verified, reusable field or routing rule,
+  update the file. Create it only when the project instructions explicitly
+  request it.
+- Record the field name, meaning, applicable indexes, environments or
+  applications, correlation purpose, evidence source, and verification date.
+- Use placeholders in examples. Never record credentials, tokens, personal
+  data, real log values, raw log samples, one-off observations, or unverified
+  assumptions.
+- If the current task is read-only or forbids file changes, report the proposed
+  addition without modifying the file.
+
 ## Hard boundaries
 
 - Keep all OpenSearch actions read-only. Never change documents, indexes,

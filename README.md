@@ -112,10 +112,18 @@ Use `$opensearch-log-analysis` for every OpenSearch investigation.
 - Correlate requests with `trace.id` and `request.id`.
 - If an index is unavailable, report the error instead of searching a broader
   index pattern.
+- Maintain reusable OpenSearch search information in `OPEN_SEARCH_INFO.md`.
 ```
 
 This keeps private routing knowledge close to the project while allowing the
 same safety workflow to be reused elsewhere.
+
+When a project opts in, the skill reads `OPEN_SEARCH_INFO.md` before searching
+and updates it only with verified, reusable fields or routing rules. It records
+their scope, purpose, evidence source, and verification date. The file must not
+contain secrets, personal data, real log values, raw samples, one-off findings,
+or unverified assumptions. Read-only tasks receive a proposed documentation
+update instead of a file change.
 
 ## Verification
 
