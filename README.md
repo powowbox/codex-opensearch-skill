@@ -1,4 +1,4 @@
-# codex-opensearch-mcp
+# codex-opensearch-skill
 
 A small macOS launcher and configuration template for connecting Codex to the
 [official OpenSearch MCP server](https://github.com/opensearch-project/opensearch-mcp-server-py).
